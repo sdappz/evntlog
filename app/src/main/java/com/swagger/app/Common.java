@@ -8,7 +8,6 @@ import android.util.Log;
 
 public class Common {
     public static boolean isDebugging = false;
-
     public static String imagePath = "";
     public static double Latitude;
     public static double Longitude;
