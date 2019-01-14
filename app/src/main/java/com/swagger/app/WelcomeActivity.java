@@ -74,10 +74,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
         verifyBtn.setOnClickListener(view -> {
-           // SharedPreferences userPref = getSharedPreferences("userCred", MODE_PRIVATE);
+            // SharedPreferences userPref = getSharedPreferences("userCred", MODE_PRIVATE);
             if (otpTxt.getText().toString().trim().length() != 0) {
                 if (Common.checkNetworkConnection(WelcomeActivity.this)) {
-                  //  validateOtp(userPref.getString("firstName", ""), userPref.getString("lastName", ""), userPref.getString("mobile", ""), userPref.getString("password", ""), otpTxt.getText().toString().trim());
+                    //  validateOtp(userPref.getString("firstName", ""), userPref.getString("lastName", ""), userPref.getString("mobile", ""), userPref.getString("password", ""), otpTxt.getText().toString().trim());
 
                     validateOtp(sharedPreferenceClass.getValue_string(StaticVariables.FIRST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.LAST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.MOBILE_NUMBER), sharedPreferenceClass.getValue_string(StaticVariables.PASSWORD), otpTxt.getText().toString().trim());
 
@@ -201,10 +201,10 @@ public class WelcomeActivity extends AppCompatActivity {
                     registrationLayout.setVisibility(View.GONE);
                     otpLayout.setVisibility(View.VISIBLE);
 
-                    sharedPreferenceClass.setValue_string(StaticVariables.FIRST_NAME,firstName);
-                    sharedPreferenceClass.setValue_string(StaticVariables.LAST_NAME,lastName);
-                    sharedPreferenceClass.setValue_string(StaticVariables.PASSWORD,password);
-                    sharedPreferenceClass.setValue_string(StaticVariables.MOBILE_NUMBER,mobileNo);
+                    sharedPreferenceClass.setValue_string(StaticVariables.FIRST_NAME, firstName);
+                    sharedPreferenceClass.setValue_string(StaticVariables.LAST_NAME, lastName);
+                    sharedPreferenceClass.setValue_string(StaticVariables.PASSWORD, password);
+                    sharedPreferenceClass.setValue_string(StaticVariables.MOBILE_NUMBER, mobileNo);
 
 
                    /* SharedPreferences userPref = getSharedPreferences("userCred", MODE_PRIVATE);
@@ -262,7 +262,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 public void onSuccess(int i, Header[] headers, String response) {
 
                     try {
-                        sharedPreferenceClass.setValue_boolean(StaticVariables.IS_REGISTERED,true);
+                        sharedPreferenceClass.setValue_boolean(StaticVariables.IS_REGISTERED, true);
                         /*SharedPreferences userPref = getSharedPreferences("userCred", MODE_PRIVATE);
                         userPref.edit().putBoolean("isReg", true).apply();*/
                         otpLayout.setVisibility(View.GONE);
@@ -337,10 +337,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
                     try {
                         JSONObject data = new JSONObject(response);
-                        String access_token=data.getString("access_token");
-                        String user_id=data.getString("userId");
-                        String user_type=data.getString("userType");
-                        String mobile_no=data.getString("mobileNo");
+                        String access_token = data.getString("access_token");
+                        String user_id = data.getString("userId");
+                        String user_type = data.getString("userType");
+                        String mobile_no = data.getString("mobileNo");
 
                         sharedPreferenceClass.setValue_string(StaticVariables.MOBILE_NUMBER
                                 , data.getString("mobileNo"));
@@ -355,7 +355,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
                         /*SharedPreferences userPref = getSharedPreferences("userCred", MODE_PRIVATE);
                         userPref.edit().putBoolean("isReg", true).apply();*/
-                        startActivity(new Intent(WelcomeActivity.this, ServiceSelectionActivity.class));
+                        if (sharedPreferenceClass.getValue_string(StaticVariables.USER_TYPE).equals("P"))
+                            startActivity(new Intent(WelcomeActivity.this, ServiceSelectionActivity.class));
+                        else if (sharedPreferenceClass.getValue_string(StaticVariables.USER_TYPE).equals("U"))
+                            startActivity(new Intent(WelcomeActivity.this, UserActivity.class));
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

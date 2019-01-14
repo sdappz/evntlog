@@ -40,7 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by imabh on 11-01-2019.
+ * Created by doyel on 11-01-2019.
  */
 
 public class ServiceSelectionActivity extends AppCompatActivity implements View.OnClickListener {

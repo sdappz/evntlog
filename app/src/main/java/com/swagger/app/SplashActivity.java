@@ -38,11 +38,18 @@ public class SplashActivity extends AppCompatActivity {
                 try {
                     /*SharedPreferences sp = getSharedPreferences("userCred", MODE_PRIVATE);
                     boolean isReg = sp.getBoolean("isReg", false);*/
-                    boolean isReg=sharedPreferenceClass.getValue_boolean(StaticVariables.IS_REGISTERED);
+                    boolean isReg = sharedPreferenceClass.getValue_boolean(StaticVariables.IS_REGISTERED);
                     if (isReg) {
-                        Intent intent = new Intent(SplashActivity.this, ServiceSelectionActivity.class);
-                        startActivity(intent);
-                        finish();
+                        if (sharedPreferenceClass.getValue_string(StaticVariables.USER_TYPE).equals("P")) {
+                            Intent intent = new Intent(SplashActivity.this, ServiceSelectionActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else if (sharedPreferenceClass.getValue_string(StaticVariables.USER_TYPE).equals("U")) {
+                            Intent intent = new Intent(SplashActivity.this, UserActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
                     } else {
                         Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
                         startActivity(intent);
