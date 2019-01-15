@@ -12,4 +12,5 @@ public class StaticVariables {
     public static String PASSWORD = "password";
     public static String DEFAULT_SERVICE_ID = "default_service_id";
     public static String ADDITIONAL_SERVICES = "additional_services";
+    public static String ADDITIONAL_SERVICE_LIST = "additional_service_list";
 }

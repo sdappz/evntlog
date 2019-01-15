@@ -4,6 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 public class SharedPreferenceClass {
 
     private static final String USER_PREFS = "userCred";
@@ -37,6 +43,12 @@ public class SharedPreferenceClass {
         return appSharedPrefs.getFloat(stringKeyValue,0);
     }
 
+    public ArrayList<String> getValue_list(String stringKeyValue) {
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString(stringKeyValue, "");
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        return gson.fromJson(json, type);
+    }
     ///setvalue
 
     public void setValue_int(String intKeyValue, int _intValue) {
@@ -62,6 +74,14 @@ public class SharedPreferenceClass {
     public void setValue_boolean(String stringKeyValue, Boolean _bool) {
 
         prefsEditor.putBoolean(stringKeyValue, _bool).commit();
+
+    }
+
+    public void setValue_list(String key_value, ArrayList<String> al) {
+        Gson gson = new Gson();
+        String json = gson.toJson(al);
+
+        prefsEditor.putString(key_value, json).commit();
 
     }
 

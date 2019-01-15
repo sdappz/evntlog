@@ -47,7 +47,6 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
     Spinner spnrServices;
     Button btnSubmit;
-    String data[] = {"---- SELECT SERVICE ---", "WEDDING PLANNER"};
     SharedPreferenceClass sharedPreferenceClass;
     AsyncHttpClient client = null;
     ArrayList<Service> al_services;
@@ -59,6 +58,8 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
     String addedServices = "", selected_category = "";
     ArrayList<String> al_catID;
     LinearLayout ll_additional_services;
+    int count=0;
+    ArrayList<String> listCat_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +75,13 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
         iv_add = (ImageView) findViewById(R.id.iv_add);
         iv_add.setOnClickListener(this);
         addedServicesTxt = (EditText) findViewById(R.id.et_added_services);
-        addedServicesTxt.setText(sharedPreferenceClass.getValue_string(StaticVariables.ADDITIONAL_SERVICES));
-        ll_additional_services = (LinearLayout) findViewById(R.id.ll_additional_services);
+        addedServices=sharedPreferenceClass.getValue_string(StaticVariables.ADDITIONAL_SERVICES).trim();
+        addedServicesTxt.setText(addedServices.trim());
 
-        al_catID = new ArrayList<String>();
+        ll_additional_services = (LinearLayout) findViewById(R.id.ll_additional_services);
+        al_catID=sharedPreferenceClass.getValue_list(StaticVariables.ADDITIONAL_SERVICE_LIST);
+        btnSubmit.setClickable(false);
+
 
         System.out.println("***** Access Token ******" + sharedPreferenceClass.getValue_string(StaticVariables.ACCESS_TOKEN));
         getServiceList();
@@ -184,53 +188,73 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
             case R.id.iv_add:
                 boolean isAlreadyAdded = false;
                 boolean isDefaultService = false;
+                btnSubmit.setClickable(true);
+                if(al_catID != null) {
+                    if (al_catID.size() > 0) {
 
-                if (al_catID.size() > 0) {
+                        for (int m = 0; m < al_catID.size(); m++) {
 
-                    for (int m = 0; m < al_catID.size(); m++) {
-
-                        if (al_catID.contains(selected_cat_id)) {
-                            isAlreadyAdded = true;
+                            if (al_catID.contains(selected_cat_id)) {
+                                isAlreadyAdded = true;
+                            }
+                            if (al_catID.contains(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID))) {
+                                isDefaultService = true;
+                            }
                         }
-                        if (al_catID.contains(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID))) {
-                            isDefaultService = true;
-                        }
-                    }
 
-                    if (isAlreadyAdded) {
-                        Toast.makeText(mActivity, "Your service is already added into the list.", Toast.LENGTH_SHORT).show();
-                    } else if (isDefaultService) {
-                        Toast.makeText(mActivity, "Your service is already added as a Default Service.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (al_catID.size() < 3) {
-                            addedServices = addedServices + selected_category;
-                            al_catID.add(selected_cat_id);
-                            addedServicesTxt.setText(addedServices);
-
+                        if (isAlreadyAdded) {
+                            Toast.makeText(mActivity, "Your service is already added into the list.", Toast.LENGTH_SHORT).show();
+                            btnSubmit.setClickable(false);
+                        } else if (isDefaultService) {
+                            Toast.makeText(mActivity, "Your service is already added as a Default Service.", Toast.LENGTH_SHORT).show();
+                            btnSubmit.setClickable(false);
                         } else {
-                            Toast.makeText(mActivity, "You can't add more than 3 additional services.", Toast.LENGTH_SHORT).show();
+                            if (al_catID.size() < 3) {
+                                addedServices = addedServices +"\n"+ selected_category;
+                                al_catID.add(selected_cat_id);
+                                addedServicesTxt.setText(addedServices);
+
+
+
+                            } else {
+                                Toast.makeText(mActivity, "You can't add more than 3 additional services.", Toast.LENGTH_SHORT).show();
+                                btnSubmit.setClickable(false);
+                            }
                         }
+
+
                     }
-
-
-                } else {
+                }
+                else {
                     if(selected_cat_id.equals(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID)))
                     {
                         Toast.makeText(mActivity, "Your service is already added as a Default Service.", Toast.LENGTH_SHORT).show();
+                        btnSubmit.setClickable(false);
                     }
                     else {
                         addedServices = addedServices + selected_category;
+                        al_catID = new ArrayList<String>();
                         al_catID.add(selected_cat_id);
                         addedServicesTxt.setText(addedServices);
+
+
                     }
                 }
 
                 break;
 
             case R.id.btnSubmit:
-                if (ll_additional_services.getVisibility() == View.VISIBLE) {
-                    System.out.println("**** Array list*****" + al_catID);
-                    apiInsertAdditionalPartnerProductListing(al_catID);
+                if (ll_additional_services.getVisibility() == View.VISIBLE ) {
+
+                    if(al_catID ==null || al_catID.size()==0)
+                    {
+                        Toast.makeText(mActivity, "Add your additional services.", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    else {
+                        apiInsertAdditionalPartnerProductListing(al_catID);
+                    }
                 } else {
                     if (sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID).length() == 0) {
                         apiInsertPartnerProductListing(selected_cat_id);
@@ -300,6 +324,11 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                     Toast.makeText(mActivity, "Additional Services added Successfully !", Toast.LENGTH_SHORT).show();
                     sharedPreferenceClass.setValue_string(StaticVariables.ADDITIONAL_SERVICES,addedServicesTxt.getText().toString());
 
+                    sharedPreferenceClass.setValue_list(StaticVariables.ADDITIONAL_SERVICE_LIST,al);
+                    Intent intent = new Intent(mActivity, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
 
                 }
             });
@@ -359,6 +388,9 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                     System.out.println("****** Response for partner wise product insert *****" + response);
                     Toast.makeText(mActivity, "Service added Successfully !", Toast.LENGTH_SHORT).show();
                     sharedPreferenceClass.setValue_string(StaticVariables.DEFAULT_SERVICE_ID, cat_id);
+                    Intent intent = new Intent(mActivity, MainActivity.class);
+                    startActivity(intent);
+                    finish();
 
                 }
             });
