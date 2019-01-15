@@ -23,6 +23,7 @@ public class Common {
     public static String loginUrl="http://eventlog.ezoneindiaportal.com/token";
     public static String serviceListUrl=baseUrl+"ProductCategory/GetAll";
     public static String partnerWiseProductInsert=baseUrl+"PartnerWiseProduct/Insert";
+    public static String productCategoryUrl=baseUrl+"ProductCategory/GetAll";
 
     //Firebase controls
 
