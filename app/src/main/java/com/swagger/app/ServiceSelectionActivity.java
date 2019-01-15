@@ -74,6 +74,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
         iv_add = (ImageView) findViewById(R.id.iv_add);
         iv_add.setOnClickListener(this);
         addedServicesTxt = (EditText) findViewById(R.id.et_added_services);
+        addedServicesTxt.setText(sharedPreferenceClass.getValue_string(StaticVariables.ADDITIONAL_SERVICES));
         ll_additional_services = (LinearLayout) findViewById(R.id.ll_additional_services);
 
         al_catID = new ArrayList<String>();
@@ -89,15 +90,15 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 
         spnrServices.setAdapter(adapter);
-        if (ll_additional_services.getVisibility()==View.GONE && sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID).length()>0) {
-            spnrServices.setSelection(getIndex(spnrServices,sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID)));
+        if (ll_additional_services.getVisibility() == View.GONE && sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID).length() > 0) {
+            spnrServices.setSelection(getIndex(spnrServices, sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID)));
         }
         spnrServices.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    selected_cat_id = al_services.get(i).getCat_id();
-                    selected_category = al_services.get(i).getCategory();
+                selected_cat_id = al_services.get(i).getCat_id();
+                selected_category = al_services.get(i).getCategory();
 
             }
 
@@ -182,6 +183,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
         switch (view.getId()) {
             case R.id.iv_add:
                 boolean isAlreadyAdded = false;
+                boolean isDefaultService = false;
 
                 if (al_catID.size() > 0) {
 
@@ -190,10 +192,15 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                         if (al_catID.contains(selected_cat_id)) {
                             isAlreadyAdded = true;
                         }
+                        if (al_catID.contains(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID))) {
+                            isDefaultService = true;
+                        }
                     }
 
                     if (isAlreadyAdded) {
-                        Toast.makeText(mActivity, "Your service is already added into the list", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "Your service is already added into the list.", Toast.LENGTH_SHORT).show();
+                    } else if (isDefaultService) {
+                        Toast.makeText(mActivity, "Your service is already added as a Default Service.", Toast.LENGTH_SHORT).show();
                     } else {
                         if (al_catID.size() < 3) {
                             addedServices = addedServices + selected_category;
@@ -207,9 +214,15 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
 
                 } else {
-                    addedServices = addedServices + selected_category;
-                    al_catID.add(selected_cat_id);
-                    addedServicesTxt.setText(addedServices);
+                    if(selected_cat_id.equals(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID)))
+                    {
+                        Toast.makeText(mActivity, "Your service is already added as a Default Service.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        addedServices = addedServices + selected_category;
+                        al_catID.add(selected_cat_id);
+                        addedServicesTxt.setText(addedServices);
+                    }
                 }
 
                 break;
@@ -285,6 +298,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
                     System.out.println("****** Response for partner wise product insert *****" + response);
                     Toast.makeText(mActivity, "Additional Services added Successfully !", Toast.LENGTH_SHORT).show();
+                    sharedPreferenceClass.setValue_string(StaticVariables.ADDITIONAL_SERVICES,addedServicesTxt.getText().toString());
 
 
                 }
@@ -353,15 +367,16 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
         }
 
     }
-    private int getIndex(Spinner spinner,String default_service_id ){
+
+    private int getIndex(Spinner spinner, String default_service_id) {
 
         int index = 0;
 
-        for (int i=0;i<spinner.getCount();i++){
+        for (int i = 0; i < spinner.getCount(); i++) {
 
-            String service_id=al_services.get(i).getCat_id().toString();
+            String service_id = al_services.get(i).getCat_id().toString();
 
-            if (service_id.equals(default_service_id)){
+            if (service_id.equals(default_service_id)) {
                 index = i;
             }
         }
