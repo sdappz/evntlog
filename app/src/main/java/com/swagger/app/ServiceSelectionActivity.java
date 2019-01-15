@@ -214,11 +214,9 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
 
                 } else {
-                    if(selected_cat_id.equals(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID)))
-                    {
+                    if (selected_cat_id.equals(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID))) {
                         Toast.makeText(mActivity, "Your service is already added as a Default Service.", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         addedServices = addedServices + selected_category;
                         al_catID.add(selected_cat_id);
                         addedServicesTxt.setText(addedServices);
@@ -298,7 +296,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
                     System.out.println("****** Response for partner wise product insert *****" + response);
                     Toast.makeText(mActivity, "Additional Services added Successfully !", Toast.LENGTH_SHORT).show();
-                    sharedPreferenceClass.setValue_string(StaticVariables.ADDITIONAL_SERVICES,addedServicesTxt.getText().toString());
+                    sharedPreferenceClass.setValue_string(StaticVariables.ADDITIONAL_SERVICES, addedServicesTxt.getText().toString());
 
 
                 }
@@ -359,6 +357,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                     System.out.println("****** Response for partner wise product insert *****" + response);
                     Toast.makeText(mActivity, "Service added Successfully !", Toast.LENGTH_SHORT).show();
                     sharedPreferenceClass.setValue_string(StaticVariables.DEFAULT_SERVICE_ID, cat_id);
+                    startActivity(new Intent(ServiceSelectionActivity.this, MainActivity.class));
 
                 }
             });

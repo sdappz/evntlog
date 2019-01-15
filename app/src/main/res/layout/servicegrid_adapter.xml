@@ -23,7 +23,7 @@
             android:adjustViewBounds="true"
             android:padding="10dp"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/logo" />
 
         <TextView
             android:id="@+id/txtServiceName"

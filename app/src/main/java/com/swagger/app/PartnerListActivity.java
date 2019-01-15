@@ -110,4 +110,8 @@ public class PartnerListActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
