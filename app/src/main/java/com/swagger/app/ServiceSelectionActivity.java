@@ -58,8 +58,6 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
     String addedServices = "", selected_category = "";
     ArrayList<String> al_catID;
     LinearLayout ll_additional_services;
-    int count=0;
-    ArrayList<String> listCat_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +78,12 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
         ll_additional_services = (LinearLayout) findViewById(R.id.ll_additional_services);
         al_catID=sharedPreferenceClass.getValue_list(StaticVariables.ADDITIONAL_SERVICE_LIST);
-        btnSubmit.setClickable(false);
+        if (ll_additional_services.getVisibility() == View.VISIBLE ) {
+            btnSubmit.setClickable(false);
+        }
+        else {
+            btnSubmit.setClickable(true);
+        }
 
 
         System.out.println("***** Access Token ******" + sharedPreferenceClass.getValue_string(StaticVariables.ACCESS_TOKEN));

@@ -69,7 +69,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey_view" />
+            android:background="@color/grey_view"
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:id="@+id/ll_additional_services"
