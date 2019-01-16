@@ -35,6 +35,7 @@ public class WelcomeActivity extends AppCompatActivity {
     TextView appNameTxt;
     Button registerBtn, signUpBtn, loginBtn, userRegBtn, partnerRegBtn, postWelcomeloginBtn, verifyBtn;
     SharedPreferenceClass sharedPreferenceClass;
+    boolean isPartner = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 if (Common.checkNetworkConnection(WelcomeActivity.this)) {
                     //  validateOtp(userPref.getString("firstName", ""), userPref.getString("lastName", ""), userPref.getString("mobile", ""), userPref.getString("password", ""), otpTxt.getText().toString().trim());
 
-                    validateOtp(sharedPreferenceClass.getValue_string(StaticVariables.FIRST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.LAST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.MOBILE_NUMBER), sharedPreferenceClass.getValue_string(StaticVariables.PASSWORD), otpTxt.getText().toString().trim());
+                    validateOtp(sharedPreferenceClass.getValue_string(StaticVariables.FIRST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.LAST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.MOBILE_NUMBER), sharedPreferenceClass.getValue_string(StaticVariables.PASSWORD), otpTxt.getText().toString().trim(), isPartner);
 
                 } else {
                     Toast.makeText(WelcomeActivity.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
@@ -123,12 +124,14 @@ public class WelcomeActivity extends AppCompatActivity {
             welcomeLayout.setVisibility(View.GONE);
             postWelcomeLayout.setVisibility(View.GONE);
             registrationLayout.setVisibility(View.VISIBLE);
+            isPartner = false;
         });
 
         partnerRegBtn.setOnClickListener(view -> {
             welcomeLayout.setVisibility(View.GONE);
             postWelcomeLayout.setVisibility(View.GONE);
             registrationLayout.setVisibility(View.VISIBLE);
+            isPartner = true;
         });
 
         postWelcomeloginBtn.setOnClickListener(view -> {
@@ -226,7 +229,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     }
 
-    private void validateOtp(String firstName, String lastName, String mobileNo, String password, String otp) {
+
+    private void validateOtp(String firstName, String lastName, String mobileNo, String password, String otp, boolean isPartner) {
         AsyncHttpClient client = new AsyncHttpClient();
         client.setTimeout(30000);
         JSONObject jsonParams = new JSONObject();
@@ -238,8 +242,12 @@ public class WelcomeActivity extends AppCompatActivity {
             jsonParams.put("otp", otp);
             jsonParams.put("mobileNo", mobileNo);
             StringEntity entity = new StringEntity(jsonParams.toString());
-
-            client.post(this, Common.validateOtpUserUrl, entity, "application/json", new TextHttpResponseHandler() {
+            String validateUrl = "";
+            if (isPartner) {
+                validateUrl = Common.validateOtpPartnerUrl;
+            } else
+                validateUrl = Common.validateOtpUserUrl;
+            client.post(this, validateUrl, entity, "application/json", new TextHttpResponseHandler() {
 
                 @Override
                 public void onStart() {
