@@ -85,7 +85,6 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
             btnSubmit.setClickable(true);
         }
 
-
         System.out.println("***** Access Token ******" + sharedPreferenceClass.getValue_string(StaticVariables.ACCESS_TOKEN));
         getServiceList();
 
@@ -264,6 +263,10 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                     } else {
                         if (sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID).equals(selected_cat_id)) {
                             Toast.makeText(mActivity, "Your default service is already added.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(mActivity, AboutCompanyActivity.class);
+                            startActivity(intent);
+                            finish();
+
                         } else {
                             Toast.makeText(mActivity, "You can't set more than one default service", Toast.LENGTH_SHORT).show();
                         }
@@ -389,9 +392,9 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                 public void onSuccess(int i, Header[] headers, String response) {
 
                     System.out.println("****** Response for partner wise product insert *****" + response);
-                    Toast.makeText(mActivity, "Service added Successfully !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "Default Service added Successfully !", Toast.LENGTH_SHORT).show();
                     sharedPreferenceClass.setValue_string(StaticVariables.DEFAULT_SERVICE_ID, cat_id);
-                    Intent intent = new Intent(mActivity, MainActivity.class);
+                    Intent intent = new Intent(mActivity, AboutCompanyActivity.class);
                     startActivity(intent);
                     finish();
 

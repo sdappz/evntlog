@@ -29,8 +29,9 @@
             <ImageView
                 android:id="@+id/img_background"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/cover_photo_box" />
+                android:layout_height="130dp"
+                android:background="@mipmap/cover_photo_box"
+                android:scaleType="fitXY"/>
 
             <ImageView
                 android:id="@+id/imgProfile"
@@ -39,8 +40,9 @@
                 android:layout_below="@+id/img_background"
                 android:layout_gravity="bottom|clip_horizontal"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="110dp"
-                android:background="@mipmap/profile_pic_box" />
+                android:layout_marginTop="60dp"
+                android:background="@mipmap/profile_pic_box"
+                />
 
         </FrameLayout>
        </RelativeLayout>
@@ -336,6 +338,16 @@
 
 
         </RelativeLayout>
+        <ProgressBar
+            android:id="@+id/pBar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+
+            />
 
     </RelativeLayout>
 </LinearLayout>

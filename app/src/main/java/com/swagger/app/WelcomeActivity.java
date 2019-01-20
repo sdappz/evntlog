@@ -342,6 +342,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(int i, Header[] headers, String response) {
+                    System.out.println("*** Response Data *** "+response);
 
                     try {
                         JSONObject data = new JSONObject(response);
@@ -364,7 +365,20 @@ public class WelcomeActivity extends AppCompatActivity {
                         /*SharedPreferences userPref = getSharedPreferences("userCred", MODE_PRIVATE);
                         userPref.edit().putBoolean("isReg", true).apply();*/
                         if (sharedPreferenceClass.getValue_string(StaticVariables.USER_TYPE).equals("P"))
-                            startActivity(new Intent(WelcomeActivity.this, ServiceSelectionActivity.class));
+                            if (sharedPreferenceClass.getValue_boolean(StaticVariables.IS_VENDER_REGISTERED)) {
+
+                                Intent intent = new Intent(WelcomeActivity.this, VenderProfileActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            }
+                            else
+                            {
+                                Intent intent = new Intent(WelcomeActivity
+                                        .this, ServiceSelectionActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         else if (sharedPreferenceClass.getValue_string(StaticVariables.USER_TYPE).equals("U"))
                             startActivity(new Intent(WelcomeActivity.this, UserActivity.class));
 
