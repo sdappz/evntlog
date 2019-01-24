@@ -25,6 +25,10 @@ public class Common {
     public static String partnerWiseProductInsert=baseUrl+"PartnerWiseProduct/Insert";
     public static String productCategoryUrl=baseUrl+"ProductCategory/GetAll";
     public static String partnerListUrl=baseUrl+"PartnerWiseProduct/GetAllByProductId";
+    public static String partnerDetailsInsert=baseUrl+"PartnerDetails/Insert";
+    public static String partnerDetailsGetById=baseUrl+"PartnerDetails/GetById";
+    public static String documentType=baseUrl+"DocumentType/GetAll";
+    public static String partnerDocumentInsert=baseUrl+"PartnerDocument/Insert";
     //Firebase controls
 
     // global topic to receive app wide push notifications

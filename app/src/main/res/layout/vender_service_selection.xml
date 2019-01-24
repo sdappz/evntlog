@@ -2,135 +2,142 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">    <LinearLayout
+    android:fillViewport="true">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/background"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:background="@mipmap/top_bar"
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:src="@mipmap/back_btn"
-                android:layout_marginLeft="20dp"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/select_your_default_service"
-            android:gravity="center"
-            android:layout_marginTop="40dp"
-            android:textSize="15sp"
-            android:textColor="@color/grey_text_deep"
-            android:textStyle="bold"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
-
-        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="70dp"
-            android:background="@null"
+            android:background="@mipmap/background"
             android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/spnrServices"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:elevation="0dp"
-                android:gravity="center_vertical"
+                android:background="@mipmap/top_bar"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/back_btn" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:src="@mipmap/downword_button"
-              />
-        </FrameLayout>
+            </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/grey_view" />
-
-        <LinearLayout
-            android:id="@+id/ll_additional_services"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/iv_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/drawable_circle_theme_blue"
-                android:padding="10dp"
-                android:src="@mipmap/add" />
-
-            <EditText
-                android:id="@+id/et_added_services"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rect_edittext"
-                android:ems="10"
-                android:gravity="center|left|top"
-                android:maxLength="500"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="@string/select_your_default_service"
+                android:textColor="@color/grey_text_deep"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="70dp"
+                    android:background="@null"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/spnrServices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:elevation="0dp"
+                        android:gravity="center_vertical"
+
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@mipmap/downword_button" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/grey_view" />
+
+                <LinearLayout
+                    android:id="@+id/ll_additional_services"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/iv_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/drawable_circle_theme_blue"
+                        android:padding="10dp"
+                        android:src="@mipmap/add" />
+
+                    <EditText
+                        android:id="@+id/et_added_services"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rect_edittext"
+                        android:clickable="false"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center|left|top"
+                        android:maxLength="500"
+                        android:padding="5dp"
+                        android:textColor="@color/grey_view"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@mipmap/btn_bg"
                 android:padding="5dp"
-                android:textColor="@color/grey_view"
-                android:textSize="14sp"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:clickable="false"
-                />
-
+                android:text="@string/submit"
+                android:textAllCaps="true"
+                android:textColor="@color/sky"
+                android:textSize="15sp" />
 
         </LinearLayout>
-    </LinearLayout>
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@mipmap/btn_bg"
+
+        <ProgressBar
+            android:id="@+id/pBar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:padding="5dp"
-            android:text="@string/submit"
-            android:textAllCaps="true"
-            android:textColor="@color/sky"
-            android:textSize="15sp"/>
-    <ProgressBar
-        android:id="@+id/pBar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-       android:layout_gravity="center"
-        android:padding="5dp"
-        android:visibility="gone"
-       />
+            android:visibility="gone"
 
-
-</LinearLayout>
-
+            />
+    </RelativeLayout>
 </ScrollView>

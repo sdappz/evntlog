@@ -41,9 +41,20 @@ public class SplashActivity extends AppCompatActivity {
                     boolean isReg = sharedPreferenceClass.getValue_boolean(StaticVariables.IS_REGISTERED);
                     if (isReg) {
                         if (sharedPreferenceClass.getValue_string(StaticVariables.USER_TYPE).equals("P")) {
-                            Intent intent = new Intent(SplashActivity.this, ServiceSelectionActivity.class);
-                            startActivity(intent);
-                            finish();
+                            if (sharedPreferenceClass.getValue_boolean(StaticVariables.IS_VENDER_REGISTERED)) {
+
+                                Intent intent = new Intent(SplashActivity.this, VenderProfileActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            }
+                            else
+                            {
+                                Intent intent = new Intent(SplashActivity.this, ServiceSelectionActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
                         } else if (sharedPreferenceClass.getValue_string(StaticVariables.USER_TYPE).equals("U")) {
                             Intent intent = new Intent(SplashActivity.this, UserActivity.class);
                             startActivity(intent);
