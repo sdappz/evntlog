@@ -1,12 +1,14 @@
 package com.swagger.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -22,11 +24,12 @@ import org.json.JSONObject;
  * Created by imabh on 20-01-2019.
  */
 
-public class VenderProfileActivity extends AppCompatActivity {
+public class VenderProfileActivity extends AppCompatActivity implements View.OnClickListener {
     Activity mActivity;
     SharedPreferenceClass sharedPreferenceClass;
     ProgressBar pBar;
     ImageView imgProfile,img_background;
+    TextView tv_identity_verify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class VenderProfileActivity extends AppCompatActivity {
         pBar = findViewById(R.id.pBar);
         imgProfile=(ImageView)findViewById(R.id.imgProfile);
         img_background=(ImageView)findViewById(R.id.img_background);
+        tv_identity_verify=(TextView)findViewById(R.id.tv_identity_verify);
         apiPartnerDetailsGetByID();
     }
 
@@ -96,4 +100,13 @@ public class VenderProfileActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_identity_verify:
+                Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }
