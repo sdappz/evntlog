@@ -247,6 +247,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 validateUrl = Common.validateOtpPartnerUrl;
             } else
                 validateUrl = Common.validateOtpUserUrl;
+
             client.post(this, validateUrl, entity, "application/json", new TextHttpResponseHandler() {
 
                 @Override

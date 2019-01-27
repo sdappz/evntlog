@@ -24,7 +24,7 @@ import org.json.JSONObject;
  * Created by imabh on 20-01-2019.
  */
 
-public class VenderProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class VenderProfileActivity extends AppCompatActivity  {
     Activity mActivity;
     SharedPreferenceClass sharedPreferenceClass;
     ProgressBar pBar;
@@ -40,7 +40,12 @@ public class VenderProfileActivity extends AppCompatActivity implements View.OnC
         pBar = findViewById(R.id.pBar);
         imgProfile=(ImageView)findViewById(R.id.imgProfile);
         img_background=(ImageView)findViewById(R.id.img_background);
-        tv_identity_verify=(TextView)findViewById(R.id.tv_identity_verify);
+        tv_identity_verify=findViewById(R.id.tv_identity_verify);
+
+        tv_identity_verify.setOnClickListener(view -> {
+            Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
+            startActivity(intent);
+        });
         apiPartnerDetailsGetByID();
     }
 
@@ -100,13 +105,5 @@ public class VenderProfileActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_identity_verify:
-                Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
-                startActivity(intent);
-                break;
-        }
-    }
+
 }

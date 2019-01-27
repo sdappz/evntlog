@@ -29,6 +29,8 @@ public class Common {
     public static String partnerDetailsGetById=baseUrl+"PartnerDetails/GetById";
     public static String documentType=baseUrl+"DocumentType/GetAll";
     public static String partnerDocumentInsert=baseUrl+"PartnerDocument/Insert";
+    public static String partnerDocumentUpdateUrl=baseUrl+"PartnerDocument/Update";
+    public static String partnerDocumentFetchUrl=baseUrl+"PartnerDocument/GetAllByUserId/";
     //Firebase controls
 
     // global topic to receive app wide push notifications
