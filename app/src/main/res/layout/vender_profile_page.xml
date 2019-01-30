@@ -116,6 +116,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"/>
                 <TextView
+                    android:id="@+id/tv_additional_services"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ADDITIONAL SERVICE INFORMATION"
@@ -149,6 +150,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"/>
                 <TextView
+                    android:id="@+id/tv_past_work_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="PAST WORK DETAILS"

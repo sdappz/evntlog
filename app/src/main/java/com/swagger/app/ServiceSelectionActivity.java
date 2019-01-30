@@ -64,8 +64,10 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vender_service_selection);
 
+
         mActivity = ServiceSelectionActivity.this;
         sharedPreferenceClass = new SharedPreferenceClass(mActivity);
+        TextView tv_heading=(TextView)findViewById(R.id.tv_heading);
         spnrServices = (Spinner) findViewById(R.id.spnrServices);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(this);
@@ -73,11 +75,22 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
         iv_add = (ImageView) findViewById(R.id.iv_add);
         iv_add.setOnClickListener(this);
         addedServicesTxt = (EditText) findViewById(R.id.et_added_services);
-        addedServices=sharedPreferenceClass.getValue_string(StaticVariables.ADDITIONAL_SERVICES).trim();
-        addedServicesTxt.setText(addedServices.trim());
+
 
         ll_additional_services = (LinearLayout) findViewById(R.id.ll_additional_services);
         al_catID=sharedPreferenceClass.getValue_list(StaticVariables.ADDITIONAL_SERVICE_LIST);
+        if(getIntent().getStringExtra("AdditionalServices").equalsIgnoreCase("true"))
+        {
+            ll_additional_services.setVisibility(View.VISIBLE);
+            tv_heading.setText("SELECT YOUR ADDITIONAL SERVICES");
+
+        }
+        else
+        {
+            ll_additional_services.setVisibility(View.GONE);
+            tv_heading.setText("SELECT YOUR DEFAULT SERVICE");
+
+        }
         if (ll_additional_services.getVisibility() == View.VISIBLE ) {
             btnSubmit.setClickable(false);
         }
@@ -171,6 +184,8 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                         if (al_services.size() > 0) {
 
                             setServices();
+                            addedServices=sharedPreferenceClass.getValue_string(StaticVariables.ADDITIONAL_SERVICES).trim();
+                            addedServicesTxt.setText(addedServices.trim());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -200,6 +215,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                             if (al_catID.contains(selected_cat_id)) {
                                 isAlreadyAdded = true;
                             }
+                            String default_ser=sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID);
                             if (al_catID.contains(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID))) {
                                 isDefaultService = true;
                             }
@@ -207,10 +223,10 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
                         if (isAlreadyAdded) {
                             Toast.makeText(mActivity, "Your service is already added into the list.", Toast.LENGTH_SHORT).show();
-                            btnSubmit.setClickable(false);
+
                         } else if (isDefaultService) {
                             Toast.makeText(mActivity, "Your service is already added as a Default Service.", Toast.LENGTH_SHORT).show();
-                            btnSubmit.setClickable(false);
+
                         } else {
                             if (al_catID.size() < 3) {
                                 addedServices = addedServices +"\n"+ selected_category;
@@ -221,7 +237,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
                             } else {
                                 Toast.makeText(mActivity, "You can't add more than 3 additional services.", Toast.LENGTH_SHORT).show();
-                                btnSubmit.setClickable(false);
+
                             }
                         }
 
@@ -232,7 +248,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                     if(selected_cat_id.equals(sharedPreferenceClass.getValue_string(StaticVariables.DEFAULT_SERVICE_ID)))
                     {
                         Toast.makeText(mActivity, "Your service is already added as a Default Service.", Toast.LENGTH_SHORT).show();
-                        btnSubmit.setClickable(false);
+
                     }
                     else {
                         addedServices = addedServices + selected_category;
@@ -332,8 +348,8 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
                     sharedPreferenceClass.setValue_string(StaticVariables.ADDITIONAL_SERVICES,addedServicesTxt.getText().toString());
 
                     sharedPreferenceClass.setValue_list(StaticVariables.ADDITIONAL_SERVICE_LIST,al);
-                    Intent intent = new Intent(mActivity, MainActivity.class);
-                    startActivity(intent);
+                   /* Intent intent = new Intent(mActivity, MainActivity.class);
+                    startActivity(intent);*/
                     finish();
 
 
