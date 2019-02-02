@@ -86,6 +86,22 @@
                 android:background="@color/grey_view" />
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/et_past_work"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rect_edittext"
+            android:hint="Enter Past Work Details"
+            android:gravity="top"
+            android:padding="5dp"
+            android:inputType="text"
+            android:maxLength="80"
+            android:visibility="gone"
+            android:textSize="16sp"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
