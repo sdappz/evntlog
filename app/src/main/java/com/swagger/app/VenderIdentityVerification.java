@@ -29,9 +29,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -82,8 +85,8 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
     private Uri mImageCaptureUri;
     private static final int PICK_FROM_FILE = 2;
     Bitmap bitmap1 = null;
-    File doc_file1 = null, doc_file2 = null;
-    boolean isDoc1Clicked = false, isDoc2Clicked = false;
+    File doc_file1 = null;
+    boolean isDoc1Clicked = false;
     AsyncHttpClient client = null;
     ProgressBar pBar;
     SharedPreferenceClass sharedPreferenceClass;
@@ -96,6 +99,7 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
     int GALLERY_PHOTO = 112;
     String imageName = "";
     private boolean isImageAvailable = false;
+    EditText et_past_work;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +117,28 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
 
         iv_doc1 = (ImageView) findViewById(R.id.iv_doc1);
         iv_doc1.setOnClickListener(this);
-        fetchDocumentIfPresent();
+
+        LinearLayout ll_doc_type=findViewById(R.id.ll_doc_type);
+        TextView tv_heading=findViewById(R.id.tv_heading);
+        et_past_work=(EditText)findViewById(R.id.et_past_work);
+
+        if(getIntent().getStringExtra("PastWorkDetails").equalsIgnoreCase("true"))
+        {
+            ll_doc_type.setVisibility(View.GONE);
+            tv_heading.setText("UPLOAD YOUR PAST WORK DETAILS");
+            et_past_work.setVisibility(View.VISIBLE);
+
+        }
+        else
+        {
+            ll_doc_type.setVisibility(View.VISIBLE);
+            et_past_work.setVisibility(View.GONE);
+            tv_heading.setText("WE NEED YOUR IDENTITY VERIFICATION");
+            getServiceList();
+           // fetchDocumentIfPresent();
+        }
+
+
 
     }
 
@@ -122,58 +147,24 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
         switch (view.getId()) {
             case R.id.iv_doc1:
                 isDoc1Clicked = true;
-                isDoc2Clicked = false;
                 showImageUploadPopUp(view);
                 break;
             case R.id.btnUpload:
-                if (Common.checkNetworkConnection(this)) {
-                    if (!Common.imagePath.equals("")) {
-                        //Async method to upload image to server
-                        new AsyncTask<Void, Integer, Boolean>() {
-
-                            ProgressDialog progressDialog;
-
-                            @Override
-                            protected void onPreExecute() {
-                                super.onPreExecute();
-                                progressDialog = new ProgressDialog(VenderIdentityVerification.this);
-                                progressDialog.setMessage("Uploading please wait..");
-                                progressDialog.show();
-                            }
-
-                            @Override
-                            protected Boolean doInBackground(Void... params) {
-
-                                try {
-                                    JSONObject jsonObject = uploadDoc(Common.imagePath);
-                                    if (jsonObject != null)
-                                        return jsonObject.getString("message").equalsIgnoreCase("success");
-
-                                } catch (JSONException e) {
-                                    Log.i("TAG", "Error : " + e.getLocalizedMessage());
-                                }
-                                return false;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Boolean aBoolean) {
-                                super.onPostExecute(aBoolean);
-                                if (progressDialog != null)
-                                    progressDialog.dismiss();
-
-                                if (aBoolean)
-                                    Toast.makeText(getApplicationContext(), "Image uploaded successfully", Toast.LENGTH_LONG).show();
-                                else
-                                    Toast.makeText(getApplicationContext(), "Image Upload failed", Toast.LENGTH_LONG).show();
-
-
-                            }
-                        }.execute();
-                    } else
-                        Toast.makeText(this, "Error in capture", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+                if(et_past_work.getVisibility()==View.VISIBLE)
+                {
+                    if(et_past_work.getText().toString().length()==0)
+                    {
+                        Toast.makeText(mActivity, "Past work details cannot be blank", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        asyncMethod(0);
+                    }
                 }
+                else
+                {
+                    asyncMethod(1);
+                }
+
                 break;
         }
 
@@ -540,6 +531,7 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
                         if (al_doc_types.size() > 0) {
 
                             setDocumentTypes();
+                            fetchDocumentIfPresent();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -553,8 +545,8 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
     }
 
 
-    public JSONObject uploadDoc(String sourceImageFile) {
-
+    public JSONObject uploadDoc(String sourceImageFile, int value) {
+        RequestBody requestBody;
         try {
             File sourceFile = new File(sourceImageFile);
 
@@ -571,20 +563,35 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
             String url = "";
             SharedPreferences sharedPreferences = getSharedPreferences("imagePref", MODE_PRIVATE);
             id = sharedPreferences.getString("id", "0");
-            if (id.equals("0")) {
-                url = Common.partnerDetailsInsert;
-            } else {
-                url = Common.partnerDocumentUpdateUrl;
+               if(value==1) {
+                   if (id.equals("0")) {
+                       url = Common.partnerDetailsInsert;
+                   } else {
+                       url = Common.partnerDocumentUpdateUrl;
+                   }
+               }
+            if(value==0)
+            {
+                url=  Common.partnerPastWorkInsertUrl;
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("uploaded_file", filename, RequestBody.create(MediaType.parse("multipart/form-data"), sourceFile))
+                        .addFormDataPart("Id", "0")
+                        .addFormDataPart("Remark", et_past_work.getText().toString())
+                        .addFormDataPart("UserId", sharedPreferenceClass.getValue_string(StaticVariables.USER_ID))
+
+                        .build();
             }
-            RequestBody requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("uploaded_file", filename, RequestBody.create(MediaType.parse("multipart/form-data"), sourceFile))
-                    .addFormDataPart("Id", id)
-                    .addFormDataPart("DocumentTypeId", selected_doc_id)
-                    .addFormDataPart("UserId", sharedPreferenceClass.getValue_string(StaticVariables.USER_ID))
+            else {
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("uploaded_file", filename, RequestBody.create(MediaType.parse("multipart/form-data"), sourceFile))
+                        .addFormDataPart("Id", id)
+                        .addFormDataPart("DocumentTypeId", selected_doc_id)
+                        .addFormDataPart("UserId", sharedPreferenceClass.getValue_string(StaticVariables.USER_ID))
 
-                    .build();
-
+                        .build();
+            }
             Request request = new Request.Builder()
                     .addHeader("Authorization", "bearer " + sharedPreferenceClass.getValue_string(StaticVariables.ACCESS_TOKEN))
                     .url(url)
@@ -673,11 +680,13 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
                             SharedPreferences sharedPreferences = getSharedPreferences("imagePref", MODE_PRIVATE);
                             sharedPreferences.edit().putString("id", id).apply();
                             Picasso.get().load("http://"+imagePath).into(iv_doc1);
-                            spnrDocTypes.setSelection(Integer.parseInt(documentTypeId));
+                           // spnrDocTypes.setSelection(Integer.parseInt(documentTypeId));
+                            spnrDocTypes.setSelection(getIndex(spnrDocTypes, documentTypeId));
                             isImageAvailable = true;
-                        } else {
-                            getServiceList();
                         }
+                      /*  else {
+                            getServiceList();
+                        }*/
 
                     }
 
@@ -687,5 +696,75 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
                 }
             }
         });
+    }
+
+    private int getIndex(Spinner spinner, String doc_id) {
+
+        int index = 0;
+
+        for (int i = 0; i < spinner.getCount(); i++) {
+
+            String service_id = al_doc_types.get(i).getDocId().toString();
+
+            if (service_id.equals(doc_id)) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public void asyncMethod(int value)
+    {
+        if (Common.checkNetworkConnection(this)) {
+            if (!Common.imagePath.equals("")) {
+                //Async method to upload image to server
+                new AsyncTask<Void, Integer, Boolean>() {
+
+                    ProgressDialog progressDialog;
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        progressDialog = new ProgressDialog(VenderIdentityVerification.this);
+                        progressDialog.setMessage("Uploading please wait..");
+                        progressDialog.show();
+                    }
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+
+                        try {
+                            JSONObject jsonObject = uploadDoc(Common.imagePath,value);
+                            if (jsonObject != null)
+                                return jsonObject.getString("message").equalsIgnoreCase("success");
+
+                        } catch (JSONException e) {
+                            Log.i("TAG", "Error : " + e.getLocalizedMessage());
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean aBoolean) {
+                        super.onPostExecute(aBoolean);
+                        if (progressDialog != null)
+
+                            progressDialog.dismiss();
+
+                        if (aBoolean) {
+                            Toast.makeText(getApplicationContext(), "Image uploaded successfully", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(), "Image Upload failed", Toast.LENGTH_LONG).show();
+
+
+                    }
+                }.execute();
+            } else
+                Toast.makeText(this, "Error in capture", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
                 android:hint="Service Timing"
-                android:inputType="datetime"
+                android:inputType="text"
                 android:maxLength="60"
                 android:layout_gravity="center"
                 android:gravity="center"

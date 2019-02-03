@@ -31,6 +31,8 @@ public class Common {
     public static String partnerDocumentInsert=baseUrl+"PartnerDocument/Insert";
     public static String partnerDocumentUpdateUrl=baseUrl+"PartnerDocument/Update";
     public static String partnerDocumentFetchUrl=baseUrl+"PartnerDocument/GetAllByUserId/";
+    public static String partnerPastWorkInsertUrl=baseUrl+"PartnerPastWork/Insert";
+    public static String PartnerPastWorkUpdateUrl=baseUrl+"PartnerPastWork/Update";
     //Firebase controls
 
     // global topic to receive app wide push notifications

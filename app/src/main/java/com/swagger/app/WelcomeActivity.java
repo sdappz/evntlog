@@ -398,6 +398,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             {
                                 Intent intent = new Intent(WelcomeActivity
                                         .this, ServiceSelectionActivity.class);
+                                intent.putExtra("AdditionalServices","false");
                                 startActivity(intent);
                                 finish();
                             }

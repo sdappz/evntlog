@@ -28,8 +28,11 @@ public class VenderProfileActivity extends AppCompatActivity {
     Activity mActivity;
     SharedPreferenceClass sharedPreferenceClass;
     ProgressBar pBar;
-    ImageView imgProfile, img_background;
-    TextView tv_identity_verify;
+
+
+    ImageView imgProfile,img_background;
+    TextView tv_identity_verify,tv_additional_services,tv_past_work_details;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +41,39 @@ public class VenderProfileActivity extends AppCompatActivity {
         mActivity = VenderProfileActivity.this;
         sharedPreferenceClass = new SharedPreferenceClass(mActivity);
         pBar = findViewById(R.id.pBar);
-        imgProfile = (ImageView) findViewById(R.id.imgProfile);
+
         img_background = (ImageView) findViewById(R.id.img_background);
         tv_identity_verify = findViewById(R.id.tv_identity_verify);
+
+
+        imgProfile=(ImageView)findViewById(R.id.imgProfile);
+        img_background=(ImageView)findViewById(R.id.img_background);
+        tv_identity_verify=findViewById(R.id.tv_identity_verify);
+  //      tv_additional_services=findViewById(R.id.tv_additional_services);
+        tv_past_work_details=(TextView)findViewById(R.id.tv_past_work_details);
+
+        tv_identity_verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
+                intent.putExtra("PastWorkDetails","false");
+                startActivity(intent);
+            }
+        });
+      /*  tv_additional_services.setOnClickListener(view -> {
+            Intent intent = new Intent(mActivity, ServiceSelectionActivity.class);
+            intent.putExtra("AdditionalServices","true");
+            startActivity(intent);
+        });*/
+     
+        tv_past_work_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
+                intent.putExtra("PastWorkDetails","true");
+                startActivity(intent);
+            }
+        });
 
         apiPartnerDetailsGetByID();
 
