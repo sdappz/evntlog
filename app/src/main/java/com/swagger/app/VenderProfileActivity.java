@@ -65,7 +65,7 @@ public class VenderProfileActivity extends AppCompatActivity {
             intent.putExtra("AdditionalServices","true");
             startActivity(intent);
         });*/
-     
+
         tv_past_work_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -713,7 +713,7 @@ public class VenderIdentityVerification extends AppCompatActivity implements Vie
         return index;
     }
 
-    public void asyncMethod(int value)
+    public void asyncMethod(final int value)
     {
         if (Common.checkNetworkConnection(this)) {
             if (!Common.imagePath.equals("")) {
