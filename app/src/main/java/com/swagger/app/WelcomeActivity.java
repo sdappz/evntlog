@@ -74,74 +74,95 @@ public class WelcomeActivity extends AppCompatActivity {
         welcomeLayout.setVisibility(View.VISIBLE);
 
 
-        verifyBtn.setOnClickListener(view -> {
-            // SharedPreferences userPref = getSharedPreferences("userCred", MODE_PRIVATE);
-            if (otpTxt.getText().toString().trim().length() != 0) {
-                if (Common.checkNetworkConnection(WelcomeActivity.this)) {
-                    //  validateOtp(userPref.getString("firstName", ""), userPref.getString("lastName", ""), userPref.getString("mobile", ""), userPref.getString("password", ""), otpTxt.getText().toString().trim());
+        verifyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (otpTxt.getText().toString().trim().length() != 0) {
+                    if (Common.checkNetworkConnection(WelcomeActivity.this)) {
+                        //  validateOtp(userPref.getString("firstName", ""), userPref.getString("lastName", ""), userPref.getString("mobile", ""), userPref.getString("password", ""), otpTxt.getText().toString().trim());
 
-                    validateOtp(sharedPreferenceClass.getValue_string(StaticVariables.FIRST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.LAST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.MOBILE_NUMBER), sharedPreferenceClass.getValue_string(StaticVariables.PASSWORD), otpTxt.getText().toString().trim(), isPartner);
+                        validateOtp(sharedPreferenceClass.getValue_string(StaticVariables.FIRST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.LAST_NAME), sharedPreferenceClass.getValue_string(StaticVariables.MOBILE_NUMBER), sharedPreferenceClass.getValue_string(StaticVariables.PASSWORD), otpTxt.getText().toString().trim(), isPartner);
 
-                } else {
-                    Toast.makeText(WelcomeActivity.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                }
-            } else
-                Toast.makeText(WelcomeActivity.this, "Otp cannot be empty", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(WelcomeActivity.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+                    }
+                } else
+                    Toast.makeText(WelcomeActivity.this, "Otp cannot be empty", Toast.LENGTH_SHORT).show();
+            }
         });
-        registerBtn.setOnClickListener(view -> {
-            if (firstNameTxt.getText().toString().trim().length() != 0 || lastNameTxt.getText().toString().length() != 0 || passwordTxt.getText().toString().trim().length() != 0 || mobileNoTxt.getText().toString().trim().length() != 0) {
-                if (confirmPasswordTxt.getText().toString().trim().equals(passwordTxt.getText().toString().trim())) {
-                    if (Common.checkNetworkConnection(this)) {
-                        registerUser(firstNameTxt.getText().toString().trim(), lastNameTxt.getText().toString().trim(), mobileNoTxt.getText().toString().trim(), passwordTxt.getText().toString().trim());
+
+        registerBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if (firstNameTxt.getText().toString().trim().length() != 0 || lastNameTxt.getText().toString().length() != 0 || passwordTxt.getText().toString().trim().length() != 0 || mobileNoTxt.getText().toString().trim().length() != 0) {
+                    if (confirmPasswordTxt.getText().toString().trim().equals(passwordTxt.getText().toString().trim())) {
+                        if (Common.checkNetworkConnection(WelcomeActivity.this)) {
+                            registerUser(firstNameTxt.getText().toString().trim(), lastNameTxt.getText().toString().trim(), mobileNoTxt.getText().toString().trim(), passwordTxt.getText().toString().trim());
+                        } else {
+                            Toast.makeText(WelcomeActivity.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(WelcomeActivity.this, "Both password & confirm password should be identical", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(WelcomeActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                if (phoneNoTxt.getText().toString().trim().length() != 0 || loginPasswordTxt.getText().toString().trim().length() != 0) {
+                    if (Common.checkNetworkConnection(WelcomeActivity.this)) {
+                        doUserLogin(phoneNoTxt.getText().toString().trim(), loginPasswordTxt.getText().toString().trim());
                     } else {
                         Toast.makeText(WelcomeActivity.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(WelcomeActivity.this, "Both password & confirm password should be identical", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WelcomeActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(WelcomeActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+            }
+        });
+        signUpBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                welcomeLayout.setVisibility(View.GONE);
+                postWelcomeLayout.setVisibility(View.VISIBLE);
             }
         });
 
-        loginBtn.setOnClickListener(view -> {
-            if (phoneNoTxt.getText().toString().trim().length() != 0 || loginPasswordTxt.getText().toString().trim().length() != 0) {
-                if (Common.checkNetworkConnection(this)) {
-                    doUserLogin(phoneNoTxt.getText().toString().trim(), loginPasswordTxt.getText().toString().trim());
-                } else {
-                    Toast.makeText(WelcomeActivity.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(WelcomeActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+        userRegBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                welcomeLayout.setVisibility(View.GONE);
+                postWelcomeLayout.setVisibility(View.GONE);
+                registrationLayout.setVisibility(View.VISIBLE);
+                isPartner = false;
             }
         });
-        signUpBtn.setOnClickListener(view -> {
-            welcomeLayout.setVisibility(View.GONE);
-            postWelcomeLayout.setVisibility(View.VISIBLE);
+
+        partnerRegBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                welcomeLayout.setVisibility(View.GONE);
+                postWelcomeLayout.setVisibility(View.GONE);
+                registrationLayout.setVisibility(View.VISIBLE);
+                isPartner = true;
+            }
         });
 
-        userRegBtn.setOnClickListener(view -> {
-            welcomeLayout.setVisibility(View.GONE);
-            postWelcomeLayout.setVisibility(View.GONE);
-            registrationLayout.setVisibility(View.VISIBLE);
-            isPartner = false;
-        });
-
-        partnerRegBtn.setOnClickListener(view -> {
-            welcomeLayout.setVisibility(View.GONE);
-            postWelcomeLayout.setVisibility(View.GONE);
-            registrationLayout.setVisibility(View.VISIBLE);
-            isPartner = true;
-        });
-
-        postWelcomeloginBtn.setOnClickListener(view -> {
-            postWelcomeLayout.setVisibility(View.GONE);
-            welcomeLayout.setVisibility(View.VISIBLE);
+        postWelcomeloginBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                postWelcomeLayout.setVisibility(View.GONE);
+                welcomeLayout.setVisibility(View.VISIBLE);
+            }
         });
 
     }
 
-    private void registerUser(String firstName, String lastName, String mobileNo, String password) {
+    private void registerUser(final String firstName, final String lastName, final String mobileNo, final String password) {
         AsyncHttpClient client = new AsyncHttpClient();
         client.setTimeout(30000);
         JSONObject jsonParams = new JSONObject();
