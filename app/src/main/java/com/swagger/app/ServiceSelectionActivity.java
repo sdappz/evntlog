@@ -295,7 +295,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
     }
 
-    public void apiInsertAdditionalPartnerProductListing(ArrayList<String> al) {
+    public void apiInsertAdditionalPartnerProductListing(final ArrayList<String> al) {
         client = new AsyncHttpClient();
         client.setTimeout(30000);
 
@@ -362,7 +362,7 @@ public class ServiceSelectionActivity extends AppCompatActivity implements View.
 
     }
 
-    public void apiInsertPartnerProductListing(String cat_id) {
+    public void apiInsertPartnerProductListing(final String cat_id) {
         client = new AsyncHttpClient();
         client.setTimeout(30000);
 

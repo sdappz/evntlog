@@ -66,10 +66,12 @@ import okhttp3.Response;
  * Created by imabh on 20-01-2019.
  */
 
-public class VenderProfileActivity extends AppCompatActivity  {
+public class VenderProfileActivity extends AppCompatActivity {
     Activity mActivity;
     SharedPreferenceClass sharedPreferenceClass;
     ProgressBar pBar;
+
+
     ImageView imgProfile,img_background;
     TextView tv_identity_verify,tv_additional_services,tv_past_work_details;
     File fileSDImage;
@@ -80,35 +82,49 @@ public class VenderProfileActivity extends AppCompatActivity  {
     boolean isProfileImage=false;
     String imagePath="";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vender_profile_page);
-        mActivity=VenderProfileActivity.this;
+        mActivity = VenderProfileActivity.this;
         sharedPreferenceClass = new SharedPreferenceClass(mActivity);
         pBar = findViewById(R.id.pBar);
+
+        img_background = (ImageView) findViewById(R.id.img_background);
+        tv_identity_verify = findViewById(R.id.tv_identity_verify);
+
+
         imgProfile=(ImageView)findViewById(R.id.imgProfile);
         img_background=(ImageView)findViewById(R.id.img_background);
         tv_identity_verify=findViewById(R.id.tv_identity_verify);
   //      tv_additional_services=findViewById(R.id.tv_additional_services);
         tv_past_work_details=(TextView)findViewById(R.id.tv_past_work_details);
 
-        tv_identity_verify.setOnClickListener(view -> {
-            Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
-            intent.putExtra("PastWorkDetails","false");
-            startActivity(intent);
+        tv_identity_verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
+                intent.putExtra("PastWorkDetails","false");
+                startActivity(intent);
+            }
         });
       /*  tv_additional_services.setOnClickListener(view -> {
             Intent intent = new Intent(mActivity, ServiceSelectionActivity.class);
             intent.putExtra("AdditionalServices","true");
             startActivity(intent);
         });*/
-        tv_past_work_details.setOnClickListener(view -> {
-            Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
-            intent.putExtra("PastWorkDetails","true");
-            startActivity(intent);
+
+        tv_past_work_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
+                intent.putExtra("PastWorkDetails","true");
+                startActivity(intent);
+            }
         });
 
+<<<<<<< HEAD
         imgProfile.setOnClickListener(view -> {
             isProfileImage=true;
             showImageUploadPopUp(view);
@@ -117,7 +133,18 @@ public class VenderProfileActivity extends AppCompatActivity  {
             isProfileImage=false;
             showImageUploadPopUp(view);
         });
+=======
+>>>>>>> 59215d5ca98eaeac31bc80e55763839ad6100301
         apiPartnerDetailsGetByID();
+
+        tv_identity_verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void apiPartnerDetailsGetByID() {
@@ -130,8 +157,8 @@ public class VenderProfileActivity extends AppCompatActivity  {
         client.addHeader("Authorization", "bearer " + sharedPreferenceClass.getValue_string(StaticVariables.ACCESS_TOKEN));
         client.addHeader("Content-Type", "application/json");
 
-        System.out.println("*** Request **** "+Common.partnerDetailsGetById+"/"+sharedPreferenceClass.getValue_string(StaticVariables.USER_ID));
-        client.get(Common.partnerDetailsGetById+"/"+sharedPreferenceClass.getValue_string(StaticVariables.USER_ID), new TextHttpResponseHandler() {
+        System.out.println("*** Request **** " + Common.partnerDetailsGetById + "/" + sharedPreferenceClass.getValue_string(StaticVariables.USER_ID));
+        client.get(Common.partnerDetailsGetById + "/" + sharedPreferenceClass.getValue_string(StaticVariables.USER_ID), new TextHttpResponseHandler() {
 
 
             @Override
@@ -160,10 +187,9 @@ public class VenderProfileActivity extends AppCompatActivity  {
                 System.out.println("****** Response ******" + response);
                 try {
                     JSONObject data = new JSONObject(response);
-                    String image_path=data.getString("imagePath");
-                    System.out.println("***image path *****"+image_path);
-                    if(image_path.equalsIgnoreCase("null"))
-                    {
+                    String image_path = data.getString("imagePath");
+                    System.out.println("***image path *****" + image_path);
+                    if (image_path.equalsIgnoreCase("null")) {
                         imgProfile.setImageResource(R.mipmap.logo);
                         img_background.setImageResource(R.mipmap.ic_launcher);
                     }
