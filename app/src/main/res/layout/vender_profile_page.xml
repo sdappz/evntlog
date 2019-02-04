@@ -35,13 +35,13 @@
 
             <ImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
                 android:layout_below="@+id/img_background"
                 android:layout_gravity="bottom|clip_horizontal"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="60dp"
-                android:background="@mipmap/profile_pic_box"
+                android:background="@drawable/diamond_shape"
                 />
 
         </FrameLayout>

@@ -13,6 +13,7 @@ public class Common {
     public static double Longitude;
     public static String SMS_ORIGIN="CTYLYF";
 
+
     //API Urls
     public static String baseUrl = "http://eventlog.ezoneindiaportal.com/api/";
 
@@ -33,6 +34,8 @@ public class Common {
     public static String partnerDocumentFetchUrl=baseUrl+"PartnerDocument/GetAllByUserId/";
     public static String partnerPastWorkInsertUrl=baseUrl+"PartnerPastWork/Insert";
     public static String PartnerPastWorkUpdateUrl=baseUrl+"PartnerPastWork/Update";
+    public static String uploadProfilePicture=baseUrl+"PartnerProfile/UploadProfilePicture";
+    public static String uploadCoverPicture=baseUrl+"PartnerProfile/UploadCoverPicture";
     //Firebase controls
 
     // global topic to receive app wide push notifications
