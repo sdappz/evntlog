@@ -73,7 +73,7 @@ public class VenderProfileActivity extends AppCompatActivity {
 
 
     ImageView imgProfile,img_background;
-    TextView tv_identity_verify,tv_additional_services,tv_past_work_details;
+    TextView tv_identity_verify,tv_additional_services,tv_past_work_details,aboutmeTxt;
     File fileSDImage;
     Uri imageToUploadUri;
     int CAMERA_PHOTO = 111;
@@ -98,6 +98,7 @@ public class VenderProfileActivity extends AppCompatActivity {
         imgProfile=(ImageView)findViewById(R.id.imgProfile);
         img_background=(ImageView)findViewById(R.id.img_background);
         tv_identity_verify=findViewById(R.id.tv_identity_verify);
+        aboutmeTxt=findViewById(R.id.aboutmeTxt);
   //      tv_additional_services=findViewById(R.id.tv_additional_services);
         tv_past_work_details=(TextView)findViewById(R.id.tv_past_work_details);
 
@@ -124,26 +125,41 @@ public class VenderProfileActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
-        imgProfile.setOnClickListener(view -> {
-            isProfileImage=true;
-            showImageUploadPopUp(view);
+
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isProfileImage = true;
+                showImageUploadPopUp(view);
+            }
         });
-        img_background.setOnClickListener(view -> {
-            isProfileImage=false;
-            showImageUploadPopUp(view);
+        img_background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isProfileImage = false;
+                showImageUploadPopUp(view);
+            }
         });
-=======
->>>>>>> 59215d5ca98eaeac31bc80e55763839ad6100301
+
+
         apiPartnerDetailsGetByID();
 
         tv_identity_verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
+                intent.putExtra("PastWorkDetails","false");
                 startActivity(intent);
             }
         });
+        aboutmeTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, AboutMeActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -420,7 +436,7 @@ public class VenderProfileActivity extends AppCompatActivity {
 
                 }
 
-                asyncMethod();
+
 
                // imgProfile.setVisibility(View.VISIBLE);
                 File fimage = new File(imagepathName);
@@ -437,6 +453,7 @@ public class VenderProfileActivity extends AppCompatActivity {
                 }
                 try {
                     copyFile(fimage, new File(imagePath));
+                    asyncMethod();
 
                 } catch (IOException e) {
                     e.printStackTrace();
