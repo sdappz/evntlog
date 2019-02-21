@@ -88,10 +88,10 @@ public class UserActivity extends AppCompatActivity {
                         Toast.makeText(UserActivity.this, "Sorry, unable to fetch list", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        final GridLayoutManager glm = new GridLayoutManager(UserActivity.this, 2, LinearLayoutManager.HORIZONTAL, false);
-                        glm.setOrientation(LinearLayoutManager.VERTICAL);
+                        final LinearLayoutManager llm = new LinearLayoutManager(UserActivity.this);
+                        llm.setOrientation(LinearLayoutManager.VERTICAL);
                         ServiceAdapter pAdapter = new ServiceAdapter(UserActivity.this, sList);
-                        serviceList.setLayoutManager(glm);
+                        serviceList.setLayoutManager(llm);
                         serviceList.setAdapter(pAdapter);
                         pBar.setVisibility(View.GONE);
                     }

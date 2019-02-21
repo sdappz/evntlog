@@ -1,6 +1,7 @@
 package com.swagger.app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.swagger.app.PartnerDetailsActivity;
 import com.swagger.app.R;
 import com.swagger.app.model.PartnerModel;
 import com.swagger.app.model.ServiceCategoryModel;
@@ -46,7 +48,10 @@ public class PartnerAdapter extends RecyclerView.Adapter<PartnerAdapter.Recycler
         holder.containerlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ctx, "Work in progress", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(ctx, PartnerDetailsActivity.class);
+                i.putExtra("partnerName", pModel.getPartnerName());
+                i.putExtra("partnerService", pModel.getServiceName());
+                ctx.startActivity(i);
             }
         });
     }

@@ -18,6 +18,8 @@ import com.swagger.app.model.ServiceCategoryModel;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.RecyclerViewHolder> {
     Context ctx;
     List<ServiceCategoryModel> values;
@@ -59,7 +61,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.Recycler
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtServiceName;
-        ImageView imgService;
+        CircleImageView imgService;
         LinearLayout containerlayout;
 
 
