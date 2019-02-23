@@ -37,6 +37,7 @@ public class Common {
     public static String uploadProfilePicture=baseUrl+"PartnerProfile/UploadProfilePicture";
     public static String uploadCoverPicture=baseUrl+"PartnerProfile/UploadCoverPicture";
     public static String uploadAbutMeUrl=baseUrl+"PartnerAbout/Insert";
+    public static String partnerDetailsFetchUrl=baseUrl+"PartnerDetails/GetById/";
     //Firebase controls
 
     // global topic to receive app wide push notifications

@@ -16,12 +16,15 @@ import com.swagger.app.PartnerDetailsActivity;
 import com.swagger.app.R;
 import com.swagger.app.model.PartnerModel;
 import com.swagger.app.model.ServiceCategoryModel;
+import com.swagger.app.utils.SharedPreferenceClass;
+import com.swagger.app.utils.StaticVariables;
 
 import java.util.List;
 
 public class PartnerAdapter extends RecyclerView.Adapter<PartnerAdapter.RecyclerViewHolder> {
     Context ctx;
     List<PartnerModel> values;
+    SharedPreferenceClass sharedPreferenceClass;
 
     public PartnerAdapter(Context context, List<PartnerModel> values) {
         this.ctx = context;
@@ -51,6 +54,8 @@ public class PartnerAdapter extends RecyclerView.Adapter<PartnerAdapter.Recycler
                 Intent i = new Intent(ctx, PartnerDetailsActivity.class);
                 i.putExtra("partnerName", pModel.getPartnerName());
                 i.putExtra("partnerService", pModel.getServiceName());
+                sharedPreferenceClass = new SharedPreferenceClass(ctx);
+                i.putExtra("id",pModel.getId());
                 ctx.startActivity(i);
             }
         });
