@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +55,6 @@ public class PartnerAdapter extends RecyclerView.Adapter<PartnerAdapter.Recycler
                 Intent i = new Intent(ctx, PartnerDetailsActivity.class);
                 i.putExtra("partnerName", pModel.getPartnerName());
                 i.putExtra("partnerService", pModel.getServiceName());
-                sharedPreferenceClass = new SharedPreferenceClass(ctx);
                 i.putExtra("id",pModel.getId());
                 ctx.startActivity(i);
             }
@@ -70,7 +70,7 @@ public class PartnerAdapter extends RecyclerView.Adapter<PartnerAdapter.Recycler
         TextView partnerName;
         ImageView imgPartner;
         TextView serviceName;
-        LinearLayout containerlayout;
+        RelativeLayout containerlayout;
 
 
         public RecyclerViewHolder(View itemView) {

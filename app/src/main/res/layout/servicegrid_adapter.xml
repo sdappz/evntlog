@@ -14,10 +14,11 @@
     <LinearLayout
         android:id="@+id/containerLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:background="@mipmap/background"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="3">
+        android:padding="5dp"
+        android:weightSum="5">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/serviceImg"
@@ -41,6 +42,29 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:visibility="visible" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_weight="1"
+            android:paddingLeft="50dp"
+            android:scaleType="center"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/notification_bell" />
+
+        <TextView
+            android:id="@+id/arrowTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text=">"
+            android:textSize="20sp"
+            android:visibility="visible" />
+
     </LinearLayout>
 
 

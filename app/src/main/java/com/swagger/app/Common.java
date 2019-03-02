@@ -11,33 +11,34 @@ public class Common {
     public static String imagePath = "";
     public static double Latitude;
     public static double Longitude;
-    public static String SMS_ORIGIN="CTYLYF";
+    public static String SMS_ORIGIN = "CTYLYF";
 
 
     //API Urls
     public static String baseUrl = "http://eventlog.ezoneindiaportal.com/api/";
 
 
-    public static String userRegUrl= baseUrl+"RegistrationOTP";
-    public static String validateOtpUserUrl= baseUrl+"UserRegistration";
-    public static String validateOtpPartnerUrl= baseUrl+"PartnerRegistration";
-    public static String loginUrl="http://eventlog.ezoneindiaportal.com/token";
-    public static String serviceListUrl=baseUrl+"ProductCategory/GetAll";
-    public static String partnerWiseProductInsert=baseUrl+"PartnerWiseProduct/Insert";
-    public static String productCategoryUrl=baseUrl+"ProductCategory/GetAll";
-    public static String partnerListUrl=baseUrl+"PartnerWiseProduct/GetAllByProductId";
-    public static String partnerDetailsInsert=baseUrl+"PartnerDetails/Insert";
-    public static String partnerDetailsGetById=baseUrl+"PartnerDetails/GetById";
-    public static String documentType=baseUrl+"DocumentType/GetAll";
-    public static String partnerDocumentInsert=baseUrl+"PartnerDocument/Insert";
-    public static String partnerDocumentUpdateUrl=baseUrl+"PartnerDocument/Update";
-    public static String partnerDocumentFetchUrl=baseUrl+"PartnerDocument/GetAllByUserId/";
-    public static String partnerPastWorkInsertUrl=baseUrl+"PartnerPastWork/Insert";
-    public static String PartnerPastWorkUpdateUrl=baseUrl+"PartnerPastWork/Update";
-    public static String uploadProfilePicture=baseUrl+"PartnerProfile/UploadProfilePicture";
-    public static String uploadCoverPicture=baseUrl+"PartnerProfile/UploadCoverPicture";
-    public static String uploadAbutMeUrl=baseUrl+"PartnerAbout/Insert";
-    public static String partnerDetailsFetchUrl=baseUrl+"PartnerDetails/GetById/";
+    public static String userRegUrl = baseUrl + "RegistrationOTP";
+    public static String validateOtpUserUrl = baseUrl + "UserRegistration";
+    public static String validateOtpPartnerUrl = baseUrl + "PartnerRegistration";
+    public static String loginUrl = "http://eventlog.ezoneindiaportal.com/token";
+    public static String serviceListUrl = baseUrl + "ProductCategory/GetAll";
+    public static String partnerWiseProductInsert = baseUrl + "PartnerWiseProduct/Insert";
+    public static String productCategoryUrl = baseUrl + "ProductCategory/GetAll";
+    public static String partnerListUrl = baseUrl + "PartnerWiseProduct/GetAllByProductId";
+    public static String partnerDetailsInsert = baseUrl + "PartnerDetails/Insert";
+    public static String partnerDetailsGetById = baseUrl + "PartnerDetails/GetById";
+    public static String documentType = baseUrl + "DocumentType/GetAll";
+    public static String partnerDocumentInsert = baseUrl + "PartnerDocument/Insert";
+    public static String partnerDocumentUpdateUrl = baseUrl + "PartnerDocument/Update";
+    public static String partnerDocumentFetchUrl = baseUrl + "PartnerDocument/GetAllByUserId/";
+    public static String partnerPastWorkInsertUrl = baseUrl + "PartnerPastWork/Insert";
+    public static String PartnerPastWorkUpdateUrl = baseUrl + "PartnerPastWork/Update";
+    public static String uploadProfilePicture = baseUrl + "PartnerProfile/UploadProfilePicture";
+    public static String uploadCoverPicture = baseUrl + "PartnerProfile/UploadCoverPicture";
+    public static String uploadAbutMeUrl = baseUrl + "PartnerAbout/Insert";
+    public static String partnerDetailsFetchUrl = baseUrl + "PartnerDetails/GetById/";
+    public static String sendForApprovalUrl = baseUrl + "PartnerDetails/SendApproval";
     //Firebase controls
 
     // global topic to receive app wide push notifications
@@ -52,7 +53,6 @@ public class Common {
     public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
 
     public static final String SHARED_PREF = "ah_firebase";
-
 
 
     // method to check internet connectivity

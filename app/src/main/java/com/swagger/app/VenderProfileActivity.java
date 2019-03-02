@@ -27,6 +27,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ import com.swagger.app.utils.SharedPreferenceClass;
 import com.swagger.app.utils.StaticVariables;
 
 import org.apache.http.Header;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,15 +74,16 @@ public class VenderProfileActivity extends AppCompatActivity {
     ProgressBar pBar;
 
 
-    ImageView imgProfile,img_background;
-    TextView tv_identity_verify,tv_additional_services,tv_past_work_details,aboutmeTxt;
+    ImageView imgProfile, img_background;
+    TextView tv_identity_verify, tv_additional_services, tv_past_work_details, aboutmeTxt;
     File fileSDImage;
     Uri imageToUploadUri;
     int CAMERA_PHOTO = 111;
     int GALLERY_PHOTO = 112;
     String imageName = "";
-    boolean isProfileImage=false;
-    String imagePath="";
+    boolean isProfileImage = false;
+    String imagePath = "";
+    Button sendForApprovalBtn;
 
 
     @Override
@@ -90,23 +93,24 @@ public class VenderProfileActivity extends AppCompatActivity {
         mActivity = VenderProfileActivity.this;
         sharedPreferenceClass = new SharedPreferenceClass(mActivity);
         pBar = findViewById(R.id.pBar);
+        sendForApprovalBtn = findViewById(R.id.btnApproval);
 
         img_background = (ImageView) findViewById(R.id.img_background);
         tv_identity_verify = findViewById(R.id.tv_identity_verify);
 
 
-        imgProfile=(ImageView)findViewById(R.id.imgProfile);
-        img_background=(ImageView)findViewById(R.id.img_background);
-        tv_identity_verify=findViewById(R.id.tv_identity_verify);
-        aboutmeTxt=findViewById(R.id.aboutmeTxt);
-  //      tv_additional_services=findViewById(R.id.tv_additional_services);
-        tv_past_work_details=(TextView)findViewById(R.id.tv_past_work_details);
+        imgProfile = (ImageView) findViewById(R.id.imgProfile);
+        img_background = (ImageView) findViewById(R.id.img_background);
+        tv_identity_verify = findViewById(R.id.tv_identity_verify);
+        aboutmeTxt = findViewById(R.id.aboutmeTxt);
+        //      tv_additional_services=findViewById(R.id.tv_additional_services);
+        tv_past_work_details = (TextView) findViewById(R.id.tv_past_work_details);
 
         tv_identity_verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
-                intent.putExtra("PastWorkDetails","false");
+                intent.putExtra("PastWorkDetails", "false");
                 startActivity(intent);
             }
         });
@@ -120,7 +124,7 @@ public class VenderProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
-                intent.putExtra("PastWorkDetails","true");
+                intent.putExtra("PastWorkDetails", "true");
                 startActivity(intent);
             }
         });
@@ -141,6 +145,13 @@ public class VenderProfileActivity extends AppCompatActivity {
             }
         });
 
+        sendForApprovalBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userId = sharedPreferenceClass.getValue_string(StaticVariables.USER_ID);
+                sendForApprovalToServer(userId);
+            }
+        });
 
         apiPartnerDetailsGetByID();
 
@@ -148,7 +159,7 @@ public class VenderProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, VenderIdentityVerification.class);
-                intent.putExtra("PastWorkDetails","false");
+                intent.putExtra("PastWorkDetails", "false");
                 startActivity(intent);
             }
         });
@@ -270,12 +281,10 @@ public class VenderProfileActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
         String formattedDate = df.format(c.getTime());
         // imageName = Long.toString(System.currentTimeMillis()) + ".jpg";
-        if(isProfileImage)
-        {
-            imageName = "profile_image"+formattedDate + ".jpg";
-        }
-        else {
-            imageName = "cover_image"+formattedDate + ".jpg";
+        if (isProfileImage) {
+            imageName = "profile_image" + formattedDate + ".jpg";
+        } else {
+            imageName = "cover_image" + formattedDate + ".jpg";
         }
         fileSDImage = new File(root, imageName);
         imageToUploadUri = Uri.fromFile(fileSDImage);
@@ -344,27 +353,25 @@ public class VenderProfileActivity extends AppCompatActivity {
                             bmNew = Bitmap.createScaledBitmap(bm, (int) newW, (int) newH, true);
                             bmNew.compress(Bitmap.CompressFormat.JPEG, 60, fout);
                             bmNew = rotateImageIfRequired(mActivity, bmNew, imageToUploadUri);
-                             if(isProfileImage) {
-                                 imgProfile.setImageBitmap(bmNew);
-                             }
-                             else
-                             {
-                                 img_background.setImageBitmap(bmNew);
-                             }
+                            if (isProfileImage) {
+                                imgProfile.setImageBitmap(bmNew);
+                            } else {
+                                img_background.setImageBitmap(bmNew);
+                            }
 
                             // showPic.setRotation(90.0f);
 
                             bm.recycle();
                         } else {
                             bm.compress(Bitmap.CompressFormat.JPEG, 60, fout);
-                            if(isProfileImage)
-                            imgProfile.setImageBitmap(bm);
+                            if (isProfileImage)
+                                imgProfile.setImageBitmap(bm);
                             else
                                 img_background.setImageBitmap(bm);
 
                         }
 
-                     //   imgProfile.setVisibility(View.VISIBLE);
+                        //   imgProfile.setVisibility(View.VISIBLE);
 
                         // bm.recycle();
 
@@ -419,8 +426,8 @@ public class VenderProfileActivity extends AppCompatActivity {
                     bmNew = Bitmap.createScaledBitmap(bm, (int) newW, (int) newH, true);
                     bmNew.compress(Bitmap.CompressFormat.JPEG, 60, bos);
 
-                    if(isProfileImage)
-                    imgProfile.setImageBitmap(bmNew);
+                    if (isProfileImage)
+                        imgProfile.setImageBitmap(bmNew);
                     else
                         img_background.setImageBitmap(bmNew);
 
@@ -429,16 +436,15 @@ public class VenderProfileActivity extends AppCompatActivity {
                     bm.recycle();
                 } else {
                     bm.compress(Bitmap.CompressFormat.JPEG, 60, bos);
-                    if(isProfileImage)
-                    imgProfile.setImageBitmap(bm);
+                    if (isProfileImage)
+                        imgProfile.setImageBitmap(bm);
                     else
                         img_background.setImageBitmap(bm);
 
                 }
 
 
-
-               // imgProfile.setVisibility(View.VISIBLE);
+                // imgProfile.setVisibility(View.VISIBLE);
                 File fimage = new File(imagepathName);
                 if (fimage.exists()) {
                     Calendar c = Calendar.getInstance();
@@ -548,8 +554,8 @@ public class VenderProfileActivity extends AppCompatActivity {
         }
 
     }
-    public void asyncMethod()
-    {
+
+    public void asyncMethod() {
         if (Common.checkNetworkConnection(this)) {
             if (!imagePath.equals("")) {
                 //Async method to upload image to server
@@ -589,8 +595,7 @@ public class VenderProfileActivity extends AppCompatActivity {
                         if (aBoolean) {
                             Toast.makeText(getApplicationContext(), "Image uploaded successfully", Toast.LENGTH_LONG).show();
                             finish();
-                        }
-                        else
+                        } else
                             Toast.makeText(getApplicationContext(), "Image Upload failed", Toast.LENGTH_LONG).show();
 
 
@@ -605,7 +610,7 @@ public class VenderProfileActivity extends AppCompatActivity {
 
     public JSONObject uploadDoc(String sourceImageFile) {
         RequestBody requestBody;
-        String url="";
+        String url = "";
         try {
             File sourceFile = new File(sourceImageFile);
 
@@ -618,22 +623,19 @@ public class VenderProfileActivity extends AppCompatActivity {
             /**
              * OKHTTP3
              */
-            if(isProfileImage)
-            {
-                url=Common.uploadProfilePicture;
-            }
-            else
-            {
-                url=Common.uploadCoverPicture;
+            if (isProfileImage) {
+                url = Common.uploadProfilePicture;
+            } else {
+                url = Common.uploadCoverPicture;
             }
 
 
-                requestBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("uploaded_file", filename, RequestBody.create(MediaType.parse("multipart/form-data"), sourceFile))
-                        .addFormDataPart("UserId", sharedPreferenceClass.getValue_string(StaticVariables.USER_ID))
-                        .addFormDataPart("Id","0")
-                        .build();
+            requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("uploaded_file", filename, RequestBody.create(MediaType.parse("multipart/form-data"), sourceFile))
+                    .addFormDataPart("UserId", sharedPreferenceClass.getValue_string(StaticVariables.USER_ID))
+                    .addFormDataPart("Id", "0")
+                    .build();
 
             Request request = new Request.Builder()
                     .addHeader("Authorization", "bearer " + sharedPreferenceClass.getValue_string(StaticVariables.ACCESS_TOKEN))
@@ -656,5 +658,52 @@ public class VenderProfileActivity extends AppCompatActivity {
     }
 
 
+    private void sendForApprovalToServer(String userId) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.setTimeout(30000);
+        JSONObject jsonParams = new JSONObject();
+
+        try {
+            jsonParams.put("amount", 12345.00);
+            jsonParams.put("serviceProvider", "12345");
+            jsonParams.put("paymentStatus", true);
+            jsonParams.put("userId", userId);
+            StringEntity entity = new StringEntity(jsonParams.toString());
+
+            client.post(this, Common.sendForApprovalUrl, entity, "application/json", new TextHttpResponseHandler() {
+
+                @Override
+                public void onStart() {
+                    super.onStart();
+                    pBar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    pBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
+                    Toast.makeText(VenderProfileActivity.this, "Something went wrong please try again", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(int i, Header[] headers, String response) {
+
+                    try {
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

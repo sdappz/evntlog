@@ -31,7 +31,6 @@ public class PartnerDetailsActivity extends AppCompatActivity {
     ProgressBar pBar;
     SharedPreferenceClass sharedPreferenceClass;
     Activity mActivity;
-    int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +53,8 @@ public class PartnerDetailsActivity extends AppCompatActivity {
         secondImg=findViewById(R.id.secondImg);
         pBar = findViewById(R.id.pBar);
 
-         id=getIntent().getIntExtra("id",0);
-          fetchPartnerDetails();
+         int id=getIntent().getIntExtra("id",0);
+          fetchPartnerDetails(id);
 
     }
 
@@ -64,7 +63,7 @@ public class PartnerDetailsActivity extends AppCompatActivity {
         finish();
     }
 
-    private void fetchPartnerDetails() {
+    private void fetchPartnerDetails(int id) {
         client = new AsyncHttpClient();
         client.setTimeout(30000);
 
